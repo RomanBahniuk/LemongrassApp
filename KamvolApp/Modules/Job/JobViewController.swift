@@ -8,7 +8,6 @@
 import UIKit
 
 class JobViewController: UIViewController {
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()

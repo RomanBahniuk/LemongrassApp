@@ -9,15 +9,18 @@ import UIKit
 
 final class TabBarController: UITabBarController {
     
+    
     let colorsManager = ColorsManager.self
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.isHidden = true
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setTabBarVC()
-        setTabBar()
-        view.backgroundColor = .white
-        
+        setTabBar()        
     }
     
     private func setNavigationVC(controller: UIViewController, itemName: String, itemImage: String, itemSelectedImage: String) -> UINavigationController {
@@ -30,11 +33,11 @@ final class TabBarController: UITabBarController {
     }
     
     private func setTabBarVC() {
-        let mainPageVC = setNavigationVC(controller: MainPageController(), itemName: "Главная", itemImage: "MainPage", itemSelectedImage: "MainPageFilled")
-        let newsVC = setNavigationVC(controller: NewsViewController(), itemName: "Новости", itemImage: "News", itemSelectedImage: "NewsFilled")
-        let LemongrassVC = setNavigationVC(controller: CollectionTypeTableViewController(collectionType: CollectionTypeViewModel(firestoreService: FirestoreNetworkService()), collection: CollectionTypeModel()), itemName: "", itemImage: "Lemongrass", itemSelectedImage: "Lemongrass")
-        let jobVC = setNavigationVC(controller: JobViewController(), itemName: "Вакансии", itemImage: "Job", itemSelectedImage: "JobFilled")
-        let settingsVC = setNavigationVC(controller: SettingsViewController(), itemName: "Настройки", itemImage: "Settings", itemSelectedImage: "SettingsFilled")
+        let mainPageVC = setNavigationVC(controller: MainPageController(), itemName: "", itemImage: "MainPage", itemSelectedImage: "MainPageFilled")
+        let newsVC = setNavigationVC(controller: NewsViewController(), itemName: "", itemImage: "News", itemSelectedImage: "NewsFilled")
+        let LemongrassVC = setNavigationVC(controller: CollectionTypeTableViewController(collectionType: CollectionTypeViewModel(firestoreService: FirestoreNetworkService()), collection: CollectionTypeModel()), itemName: "", itemImage: "Lemongrass", itemSelectedImage: "LemongrassFilled")
+        let jobVC = setNavigationVC(controller: JobViewController(), itemName: "", itemImage: "Job", itemSelectedImage: "JobFilled")
+        let settingsVC = setNavigationVC(controller: SettingsViewController(), itemName: "", itemImage: "Settings", itemSelectedImage: "SettingsFilled")
         
         viewControllers = [mainPageVC, newsVC, LemongrassVC, jobVC, settingsVC]
         

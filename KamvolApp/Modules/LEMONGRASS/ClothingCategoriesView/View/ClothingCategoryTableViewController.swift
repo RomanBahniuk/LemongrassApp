@@ -7,16 +7,154 @@
 
 import UIKit
 
-class ClothingCategoryTableViewController: UITableViewController {
+class ClothingCategoryTableViewController: UITableViewController, UIGestureRecognizerDelegate {
+    
+    var topContentOffset: CGFloat = 65
+    var bottomContentOffset: CGFloat = -135
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.shared.statusBarUIView?.backgroundColor = .clear
+        navigationItem.hidesBackButton = true
+        navigationController?.interactivePopGestureRecognizer?.delegate = self
+        
+    }
+    
+    override func loadView() {
+        super.loadView()
+        setBackButtonItem()
+        setHeaderView()
+        navigationController?.navigationBar.backgroundColor = .clear
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setTableView()
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        UIApplication.shared.statusBarUIView?.backgroundColor = .white
+
+        
+    }
+    
+    private lazy var backButtonItem: UIButton = {
+        let backButtonItem = UIButton()
+        backButtonItem.layer.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
+        backButtonItem.layer.cornerRadius = backButtonItem.frame.height / 2
+        backButtonItem.alpha = 1
+        backButtonItem.backgroundColor = .white.withAlphaComponent(0.9)
+        backButtonItem.setImage(UIImage(named: "BackButton"), for: .normal)
+        backButtonItem.tintColor = .black
+        backButtonItem.addTarget(self, action: #selector(popToViewController), for: .touchUpInside)
+        
+        
+        return backButtonItem
+    }()
+    
+    
+    private lazy var navBarLabel: UILabel = {
+       let navBarLabel = UILabel()
+        navBarLabel.layer.frame = CGRect(x: 104, y: 10, width: 168, height: 40)
+        navBarLabel.font = UIFont(name: "Apple SD Gothic Neo Bold", size: 18)
+        navBarLabel.textColor = .black
+        navBarLabel.alpha = 0
+        navBarLabel.text = "Мужская коллекция"
+        return navBarLabel
+        
+    }()
+    
+    private lazy var containerView: UIView = {
+        let containerView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 440, height: 40)))
+        containerView.backgroundColor = .clear
+        containerView.addSubview(backButtonItem)
+        containerView.addSubview(navBarLabel)
+       return containerView
+    }()
+    
+    private func setTableView() {
+        tableView.register(ClothingCategoryTableViewCell.self, forCellReuseIdentifier: ClothingCategoryTableViewCell.reuseIdentifier)
+        tableView.separatorInset = .zero
+        tableView.separatorStyle = .none
+        tableView.rowHeight = 120
+        
+    }
+    
+    private func setBackButtonItem() {
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: containerView)
+        
+    }
+    
+    private func setHeaderView() {
+        let header = ClothingCategoryHeaderView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 160))
+        self.tableView.tableHeaderView = header
+        
+    }
+    
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        print(scrollView.contentOffset.y)
+        
+        guard let header = self.tableView.tableHeaderView as? ClothingCategoryHeaderView else { return }
+        header.scrollViewDidScroll(scrollView: self.tableView)
+        header.headerLabel.alpha = 1 - ((scrollView.contentOffset.y + self.topContentOffset) / self.topContentOffset)
+        
+        if(self.topContentOffset > scrollView.contentOffset.y) {
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 5, initialSpringVelocity: 2, options: .curveLinear) {
+                self.navBarLabel.alpha = 0
+                self.navBarLabel.frame.origin.y = 10
+                self.backButtonItem.backgroundColor = .white.withAlphaComponent(0.8)
+                self.backButtonItem.frame.origin.x = 0
+                self.navigationController?.navigationBar.backgroundColor = .clear
+                UIApplication.shared.statusBarUIView?.backgroundColor = .clear
+                
+                
+            }
+        } else if (self.topContentOffset < scrollView.contentOffset.y) {
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 5, initialSpringVelocity: 2, options: .curveLinear) {
+                self.navBarLabel.alpha = 1
+                self.navBarLabel.frame.origin.y = 0
+                self.backButtonItem.backgroundColor = .white.withAlphaComponent(0)
+                self.backButtonItem.frame.origin.x = -10
+                self.navigationController?.navigationBar.backgroundColor = .white
+                UIApplication.shared.statusBarUIView?.backgroundColor = .white
+            }
+
+        }
+        
+        if (bottomContentOffset >= scrollView.contentOffset.y) {
+            UIView.animate(withDuration: 0.5, delay: 0.2, usingSpringWithDamping: 5, initialSpringVelocity: 2, options: .curveLinear) {
+                self.backButtonItem.alpha = 0
+
+                
+            }
+        } else {
+            UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 5, initialSpringVelocity: 2, options: .curveLinear) {
+                self.backButtonItem.alpha = 1
+                
+
+
+            }
+        }
+        
+    }
+    
+    @objc func popToViewController(_ sender: UIButton) {
+        self.navigationController?.popViewController(animated: true)
     }
 
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ClothingCategoryTableViewCell.reuseIdentifier) as? ClothingCategoryTableViewCell else { return UITableViewCell() }
+        
+        return cell
     }
 
 }

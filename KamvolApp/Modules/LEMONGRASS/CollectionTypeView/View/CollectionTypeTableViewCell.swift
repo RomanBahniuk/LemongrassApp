@@ -16,8 +16,14 @@ class CollectionTypeTableViewCell: UITableViewCell {
     
     private lazy var containerView: UIView = {
         let containerView = UIView()
-        containerView.layer.cornerRadius = 36
-        containerView.backgroundColor = colorsManager.lemongrassColor.withAlphaComponent(0.8)
+        containerView.layer.cornerRadius = 16
+        containerView.backgroundColor = .white
+        containerView.layer.shadowColor = colorsManager.lemongrassColor.cgColor
+        containerView.layer.shadowRadius = 1.5
+        containerView.layer.shadowOpacity = 0.5
+        containerView.layer.shadowOffset = CGSize(width: 3, height: 3)
+        containerView.layer.masksToBounds = false
+        
         
         return containerView
     }()
@@ -26,14 +32,14 @@ class CollectionTypeTableViewCell: UITableViewCell {
     lazy var categoryLabel: UILabel = {
         let categoryLabel = UILabel()
         categoryLabel.font = UIFont(name: "Apple SD Gothic Neo Bold", size: 24)
-        categoryLabel.textColor = .white
+        categoryLabel.textColor = .systemGray6
         
         return categoryLabel
     }()
     
     lazy var categoryImageView: UIImageView = {
         let categoryImageView = UIImageView()
-        categoryImageView.layer.cornerRadius = 36
+        categoryImageView.layer.cornerRadius = 16
         categoryImageView.clipsToBounds = true
         
         return categoryImageView
@@ -52,10 +58,10 @@ class CollectionTypeTableViewCell: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.backgroundColor = .white
+        self.backgroundColor = .systemGray6
         self.separatorInset = .zero
         self.selectionStyle = .none
-        self.backgroundColor = .white
+        
     }
     
     func updateValues(for collectionType: CollectionTypeSettable) {
@@ -128,8 +134,8 @@ extension CollectionTypeTableViewCell {
         categoryImageView.translatesAutoresizingMaskIntoConstraints = false
         [categoryImageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
          categoryImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-         categoryImageView.widthAnchor.constraint(equalTo: containerView.widthAnchor),
-         categoryImageView.heightAnchor.constraint(equalTo: containerView.heightAnchor)].forEach {
+         categoryImageView.heightAnchor.constraint(equalTo: containerView.heightAnchor),
+         categoryImageView.widthAnchor.constraint(equalTo: containerView.widthAnchor)].forEach {
             $0.isActive = true
         }
     }

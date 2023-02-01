@@ -8,7 +8,7 @@
 import UIKit
 
 class MainPageController: UIViewController {
-        
+    
     
     override func loadView() {
         super.loadView()

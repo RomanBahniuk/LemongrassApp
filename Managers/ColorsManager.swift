@@ -10,7 +10,9 @@ import UIKit
 
 enum ColorsManager {
 
-    static let lemongrassColor = UIColor(red: 0, green: 144/255, blue: 81/255, alpha: 1)
+    static let lemongrassColor = UIColor(red: 55/355, green: 94/355, blue: 42/355, alpha: 1)
+    static let lemongrassLightColor = UIColor(red: 224/255, green: 229/255, blue: 89/255, alpha: 1)
+    
 
 }
 
