@@ -37,6 +37,7 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
         super.loadView()
         setBackButtonItem()
         setHeaderView()
+        scrollToBottomGesture()
         navigationController?.navigationBar.backgroundColor = .clear
     }
 
@@ -74,6 +75,7 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
         navBarLabel.font = UIFont(name: "Apple SD Gothic Neo Bold", size: 18)
         navBarLabel.textColor = .black
         navBarLabel.alpha = 0
+        navBarLabel.isUserInteractionEnabled = true
         return navBarLabel
         
     }()
@@ -122,6 +124,11 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
         let header = ClothingCategoryHeaderView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 160))
         self.tableView.tableHeaderView = header
         
+    }
+    
+    private func scrollToBottomGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(navBarLabelTapped))
+        navBarLabel.addGestureRecognizer(tapGesture)
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -173,6 +180,10 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
     
     @objc func popToViewController(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func navBarLabelTapped() {
+        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
     }
 
     // MARK: - Table view data source
