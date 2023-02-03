@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseStorage
 
 class ClothingCategoryTableViewCell: UITableViewCell {
     
@@ -34,7 +35,6 @@ class ClothingCategoryTableViewCell: UITableViewCell {
         let categoryLabel = UILabel()
         categoryLabel.font = UIFont(name: "Apple SD Gothic Neo Medium", size: 24)
         categoryLabel.textColor = .black
-        categoryLabel.text = "Пиджаки"
         
         return categoryLabel
     }()
@@ -44,7 +44,6 @@ class ClothingCategoryTableViewCell: UITableViewCell {
         let clothingCategoryImageView = UIImageView()
         clothingCategoryImageView.layer.cornerRadius = 16
         clothingCategoryImageView.clipsToBounds = true
-        clothingCategoryImageView.image = UIImage(named: "MensJacket")
         return clothingCategoryImageView
     }()
     
@@ -56,6 +55,34 @@ class ClothingCategoryTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func updateValues(for typeOfClothing: TypeOfClothingSettable) {
+        
+        categoryLabel.text = typeOfClothing.clothesName
+        
+        let storageRef = Storage.storage().reference()
+        let reference = storageRef.child(typeOfClothing.clothesImageURL)
+        reference.getData(maxSize: 1 * 1024 * 1024) { data, err in
+            if err != nil {
+                print(err?.localizedDescription ?? "errror")
+                
+            } else {
+                
+                let image = UIImage(data: data!)
+                self.clothingCategoryImageView.image = image
+                
+                reference.downloadURL { url, err in
+                    if err != nil {
+                        print(err?.localizedDescription ?? "err")
+                        
+                    } else {
+                        print(url ?? "url")
+                    }
+                }
+            }
+        }
+        
     }
     
 

@@ -11,10 +11,13 @@ import FirebaseFirestore
 
 protocol FirestoreNetworkServiceCollectionSettable {
     func getCategoryType(completion: @escaping ([CollectionTypeModel]) -> Void)
+    func getMensClothingType(completion: @escaping ([TypeOfClothingModel]) -> Void)
+    func getWomensClothingType(completion: @escaping ([TypeOfClothingModel]) -> Void)
+
 }
 
 final class FirestoreNetworkService: FirestoreNetworkServiceCollectionSettable {
-    
+
     let queue = DispatchQueue(label: "com.KamvolApp.FirestoreNetworkService", qos: .background)
     
     func getCategoryType(completion: @escaping ([CollectionTypeModel]) -> Void) {
@@ -42,6 +45,55 @@ final class FirestoreNetworkService: FirestoreNetworkServiceCollectionSettable {
             }
         }
         
+    }
+    
+    
+    func getMensClothingType(completion: @escaping ([TypeOfClothingModel]) -> Void) {
+        let db = Firestore.firestore()
+        queue.async {
+            db.collection("TypeOfClothing/MensTypeOfClothing/Clothes").getDocuments { snap, err in
+                if let err = err {
+                    print(err)
+                } else {
+                    guard let snap = snap else { return }
+                    var mensTypeOfClothingData: [TypeOfClothingModel] = []
+                    for document in snap.documents {
+                        let clothesName = document.get("clothesName") as? String ?? ""
+                        let clothesImageURL = document.get("clothesImageURL") as? String ?? ""
+                        
+                        let completeMensTypeOfClothingData = TypeOfClothingModel(clothesName: clothesName, clothesImageURL: clothesImageURL)
+                        
+                        mensTypeOfClothingData.append(completeMensTypeOfClothingData)
+                    }
+                    completion(mensTypeOfClothingData)
+                }
+            }
+        }
+    }
+    
+    
+    
+    func getWomensClothingType(completion: @escaping ([TypeOfClothingModel]) -> Void) {
+        let db = Firestore.firestore()
+        queue.async {
+            db.collection("TypeOfClothing/WomensTypeOfClothing/Clothes").getDocuments { snap, err in
+                if let err = err {
+                    print(err)
+                } else {
+                    guard let snap = snap else { return }
+                    var mensTypeOfClothingData: [TypeOfClothingModel] = []
+                    for document in snap.documents {
+                        let clothesName = document.get("clothesName") as? String ?? ""
+                        let clothesImageURL = document.get("clothesImageURL") as? String ?? ""
+                        
+                        let completeMensTypeOfClothingData = TypeOfClothingModel(clothesName: clothesName, clothesImageURL: clothesImageURL)
+                        
+                        mensTypeOfClothingData.append(completeMensTypeOfClothingData)
+                    }
+                    completion(mensTypeOfClothingData)
+                }
+            }
+        }
     }
     
     

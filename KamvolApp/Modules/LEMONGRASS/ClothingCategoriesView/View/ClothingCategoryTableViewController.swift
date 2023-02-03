@@ -9,14 +9,27 @@ import UIKit
 
 class ClothingCategoryTableViewController: UITableViewController, UIGestureRecognizerDelegate {
     
+    private let clothingCategoryViewModel: ClothingCategoryViewModel
+    let typeOfClothingModel: TypeOfClothingModel
     var topContentOffset: CGFloat = 65
-    var bottomContentOffset: CGFloat = -135
+    var bottomContentOffset: CGFloat = -235
+
+    init(clothingCategoryViewModel:ClothingCategoryViewModel, typeOfClothingModel: TypeOfClothingModel) {
+        self.clothingCategoryViewModel = clothingCategoryViewModel
+        self.typeOfClothingModel = typeOfClothingModel
+        super.init(style: .grouped)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.shared.statusBarUIView?.backgroundColor = .clear
         navigationItem.hidesBackButton = true
         navigationController?.interactivePopGestureRecognizer?.delegate = self
+        setTypeOfClothingViewModel()
         
     }
     
@@ -36,7 +49,7 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         UIApplication.shared.statusBarUIView?.backgroundColor = .white
-
+        self.navigationController?.navigationBar.backgroundColor = .clear
         
     }
     
@@ -61,7 +74,6 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
         navBarLabel.font = UIFont(name: "Apple SD Gothic Neo Bold", size: 18)
         navBarLabel.textColor = .black
         navBarLabel.alpha = 0
-        navBarLabel.text = "Мужская коллекция"
         return navBarLabel
         
     }()
@@ -74,12 +86,30 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
        return containerView
     }()
     
+    private func setTypeOfClothingViewModel() {
+        clothingCategoryViewModel.onReciveDataCallBack = self.tableView.reloadData
+    }
+    
     private func setTableView() {
         tableView.register(ClothingCategoryTableViewCell.self, forCellReuseIdentifier: ClothingCategoryTableViewCell.reuseIdentifier)
         tableView.separatorInset = .zero
         tableView.separatorStyle = .none
         tableView.rowHeight = 120
         
+    }
+    
+    func prepareForePresentMensTypeOfClothing() {
+        guard let header = self.tableView.tableHeaderView as? ClothingCategoryHeaderView else { return }
+        header.updateHeaderLabel(text: "Мужская коллекция", image: UIImage(named: "01CategoryTitle")!)
+        clothingCategoryViewModel.reciveMensClothesData()
+        navBarLabel.text = "Мужская коллекция"
+    }
+    
+    func prepareForePresentWomensTypeOfClothing() {
+        guard let header = self.tableView.tableHeaderView as? ClothingCategoryHeaderView else { return }
+        clothingCategoryViewModel.reciveWomensClothesData()
+        navBarLabel.text = "Женская коллекция"
+        header.updateHeaderLabel(text: "Женская коллекция", image: UIImage(named: "02CategoryTitle")!)
     }
     
     private func setBackButtonItem() {
@@ -148,11 +178,12 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        clothingCategoryViewModel.numberOfRowsInSection(collectionType: typeOfClothingModel, numberOfSection: section)
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ClothingCategoryTableViewCell.reuseIdentifier) as? ClothingCategoryTableViewCell else { return UITableViewCell() }
+        cell.updateValues(for: clothingCategoryViewModel.get(typeOfClothing: typeOfClothingModel, numberOfSection: indexPath))
         
         return cell
     }

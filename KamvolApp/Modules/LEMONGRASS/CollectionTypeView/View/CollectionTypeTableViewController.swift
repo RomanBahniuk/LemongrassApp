@@ -149,7 +149,12 @@ final class CollectionTypeTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
-        case 0: let controller = ClothingCategoryTableViewController()
+        case 0: let controller = ClothingCategoryTableViewController(clothingCategoryViewModel: ClothingCategoryViewModel(firestoreService: FirestoreNetworkService()), typeOfClothingModel: TypeOfClothingModel())
+            controller.prepareForePresentMensTypeOfClothing()
+            controller.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(controller, animated: true)
+        case 1: let controller = ClothingCategoryTableViewController(clothingCategoryViewModel: ClothingCategoryViewModel(firestoreService: FirestoreNetworkService()), typeOfClothingModel: TypeOfClothingModel())
+            controller.prepareForePresentWomensTypeOfClothing()
             controller.hidesBottomBarWhenPushed = true
             navigationController?.pushViewController(controller, animated: true)
             

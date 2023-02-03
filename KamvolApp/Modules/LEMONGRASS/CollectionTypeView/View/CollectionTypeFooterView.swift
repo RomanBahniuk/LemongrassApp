@@ -21,6 +21,7 @@ class CollectionTypeFooterView: UIView {
         super.init(frame: frame)
         addSubview(footerContainerView)
         setAllConstraints()
+        footerViewTapGesture()
         
     }
     
@@ -138,13 +139,13 @@ class CollectionTypeFooterView: UIView {
     }
     
     @objc func hideFooterViewButtonTapped(sender: UIButton) {
-        UIView.animate(withDuration: 0.6, delay: 0.2, usingSpringWithDamping: 1.5, initialSpringVelocity: 0.2, options: .curveLinear) {
+        UIView.animate(withDuration: 0.4, delay: 0.2, usingSpringWithDamping: 1.5, initialSpringVelocity: 0.2, options: .curveLinear) {
             self.hideFooterViewButtonCenterXAnchor.constant = -144
             self.hideFooterViewButton.alpha = 0
             self.layoutIfNeeded()
         }
         
-        UIView.animate(withDuration: 0.6, delay: 0.4, usingSpringWithDamping: 1.5, initialSpringVelocity: 0.2, options: .curveLinear) {
+        UIView.animate(withDuration: 0.4, delay: 0.4, usingSpringWithDamping: 1.5, initialSpringVelocity: 0.2, options: .curveLinear) {
             self.footerDescriptionLabelLeftAnchor.constant = -18
             self.footerDescriptionLabelRightAnchor.constant = -18
             self.footerDescriptionLabel.alpha = 0
@@ -152,25 +153,74 @@ class CollectionTypeFooterView: UIView {
             
         }
         
-        UIView.animate(withDuration: 0.4, delay: 0.6, usingSpringWithDamping: 1.5, initialSpringVelocity: 0.2, options: .curveLinear) {
+        UIView.animate(withDuration: 0.3, delay: 0.6, usingSpringWithDamping: 1.5, initialSpringVelocity: 0.2, options: .curveLinear) {
             self.footerDashLabelCenterXAnchor.constant = -144
             self.footerDashLabel.alpha = 0
             self.layoutIfNeeded()
         }
         
-        UIView.animate(withDuration: 0.4, delay: 0.8, usingSpringWithDamping: 1.5, initialSpringVelocity: 0.2, options: .curveLinear) {
+        UIView.animate(withDuration: 0.3, delay: 0.8, usingSpringWithDamping: 1.5, initialSpringVelocity: 0.2, options: .curveLinear) {
             self.footerTitleLabelCenterXAnchor.constant = -144
             self.footerTitleLabel.alpha = 0
             self.layoutIfNeeded()
             
         }
         
-        UIView.animate(withDuration: 0.4, delay: 1.2, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.2, options: .curveEaseOut) {
+        UIView.animate(withDuration: 0.2, delay: 1, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.2, options: .curveEaseOut) {
             self.footerContainerViewLeftAnchor.constant = -364
+            self.footerContainerView.layer.shadowColor = self.colorsManager.lemongrassColor.cgColor
+            self.footerContainerView.layer.shadowRadius = 1.5
+            self.footerContainerView.layer.shadowOpacity = 0.7
+            self.footerContainerView.layer.shadowOffset = CGSize(width: 3, height: 3)
             self.layoutIfNeeded()
         }
         
         
+    }
+    
+    @objc func footerViewConerTapped() {
+        UIView.animate(withDuration: 0.2, delay: 0.2, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.2, options: .curveEaseOut) {
+            self.footerContainerViewLeftAnchor.constant = 8
+            self.footerContainerView.layer.shadowColor = self.colorsManager.lemongrassLightColor.cgColor
+            self.footerContainerView.layer.shadowRadius = 1.5
+            self.footerContainerView.layer.shadowOpacity = 0.5
+            self.footerContainerView.layer.shadowOffset = CGSize(width: 3, height: 3)
+            self.layoutIfNeeded()
+        }
+        
+        UIView.animate(withDuration: 0.4, delay: 0.3, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.2, options: .curveLinear) {
+            self.footerTitleLabel.alpha = 1
+            self.footerTitleLabelCenterXAnchor.constant = 0
+            self.layoutIfNeeded()
+            
+        }
+        
+        UIView.animate(withDuration: 0.4, delay: 0.4, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.2, options: .curveLinear) {
+            self.footerDashLabel.alpha = 1
+            self.footerDashLabelCenterXAnchor.constant = 0
+            self.layoutIfNeeded()
+            
+        }
+        
+        UIView.animate(withDuration: 0.4, delay: 0.5, usingSpringWithDamping: 1.5, initialSpringVelocity: 0.2, options: .curveLinear) {
+            self.footerDescriptionLabel.alpha = 1
+            self.footerDescriptionLabelLeftAnchor.constant = 18
+            self.footerDescriptionLabelRightAnchor.constant = -18
+            self.layoutIfNeeded()
+            
+        }
+        
+        UIView.animate(withDuration: 0.4, delay: 0.6, usingSpringWithDamping: 1.5, initialSpringVelocity: 0.2, options: .curveLinear) {
+            self.hideFooterViewButton.alpha = 1
+            self.hideFooterViewButtonCenterXAnchor.constant = 0
+            self.layoutIfNeeded()
+            
+        }
+    }
+    
+    private func footerViewTapGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(footerViewConerTapped))
+        self.addGestureRecognizer(tapGesture)
     }
     
     private func setAllConstraints() {

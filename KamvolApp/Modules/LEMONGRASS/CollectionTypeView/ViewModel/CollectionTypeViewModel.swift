@@ -13,10 +13,14 @@ protocol CollectionTypeViewModelProtocol {
     func reciveData()
     func numberOfRowsInSection(collectionType: CollectionTypeModel, numberOfSection section: Int) -> Int
     func get(collectionType: CollectionTypeModel, numberOfSection IndexPath: IndexPath) -> CollectionTypeSettable
+
     
 }
 
 final class CollectionTypeViewModel: CollectionTypeViewModelProtocol {
+    
+    
+    
     
     private let firestoreService: FirestoreNetworkService
     var onReciveDataCallBack: (() -> Void)?

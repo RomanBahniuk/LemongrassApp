@@ -13,12 +13,9 @@ class ClothingCategoryHeaderView: UIView {
     var clothingCategoryImageBottom = NSLayoutConstraint()
     var containerViewHeight = NSLayoutConstraint()
     
-    
-    
     private lazy var clothingCategoryImage: UIImageView = {
        let clothingCategoryImage = UIImageView()
         clothingCategoryImage.translatesAutoresizingMaskIntoConstraints = false
-        clothingCategoryImage.image = UIImage(named: "01CategoryTitle")
         clothingCategoryImage.clipsToBounds = true
         clothingCategoryImage.contentMode = .scaleAspectFill
         clothingCategoryImage.addSubview(headerLabel)
@@ -41,7 +38,6 @@ class ClothingCategoryHeaderView: UIView {
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         headerLabel.textColor = .white
         headerLabel.font = UIFont(name: "Apple SD Gothic Neo Bold", size: 32)
-        headerLabel.text = "Мужская коллекция"
         return headerLabel
     }()
     
@@ -61,6 +57,12 @@ class ClothingCategoryHeaderView: UIView {
         containerView.clipsToBounds = offsetY <= 0
         clothingCategoryImageBottom.constant = offsetY >= 0 ? 0 : -offsetY / 2
         clothingCategoryImageHeight.constant = max(offsetY + scrollView.contentInset.top, scrollView.contentInset.top)
+        
+    }
+    
+    func updateHeaderLabel(text: String, image: UIImage) {
+        headerLabel.text = text
+        clothingCategoryImage.image = image
         
     }
     

@@ -1,14 +1,56 @@
 //
-//  ProductModel.swift
+//  LemongrassModel.swift
 //  KamvolApp
 //
-//  Created by Роман Багнюк on 11.01.23.
+//  Created by Роман Багнюк on 3.02.23.
 //
 
 import Foundation
-import FirebaseStorage
-import FirebaseFirestore
 
+//MARK: CollectionTypeModel
+protocol CollectionTypeSettable {
+    var wearCollectionTypeName: String {get}
+    var wearCollectionTypeImageURL: String {get}
+}
+
+struct CollectionTypeModel: CollectionTypeSettable {
+    
+    var wearCollectionTypeName: String
+    var wearCollectionTypeImageURL: String
+    
+    
+    init(wearCollectionTypeName: String = "", wearCollectionTypeImageURL: String = "") {
+        self.wearCollectionTypeName = wearCollectionTypeName
+        self.wearCollectionTypeImageURL = wearCollectionTypeImageURL
+    }
+}
+
+
+//MARK: LemongrassTypeOfClothingModel
+protocol TypeOfClothingSettable {
+    var clothesName: String { get }
+    var clothesImageURL: String { get }
+}
+
+
+struct TypeOfClothingModel: TypeOfClothingSettable {
+    
+    var clothesName: String
+    var clothesImageURL: String
+    
+    init(clothesName: String = "", clothesImageURL: String = "") {
+        self.clothesName = clothesName
+        self.clothesImageURL = clothesImageURL
+    }
+    
+}
+
+enum ClothingCollectionType: String {
+    case mensCollection = "Мужская коллекция"
+    case womensCollection = "Женская коллекция"
+}
+
+//MARK: LemongrassProductModel
 protocol ProductSettable {
     var productName: String {get}
     var productSerialNo: String {get}
@@ -17,11 +59,6 @@ protocol ProductSettable {
     var productSize: String {get}
     var productImageURL: String! {get}
     
-}
-
-enum WearCollectionType: String {
-    case mensCollection = "Мужская коллекция"
-    case womensCollection = "Женская коллекция"
 }
 
 enum WearCategory: String {
@@ -40,7 +77,7 @@ enum WearCategory: String {
 }
 
 struct CompleteProduct {
-    var collectionType: WearCollectionType
+    var collectionType: ClothingCollectionType
     var category: WearCategory
     var product: [Product]
 }
@@ -65,5 +102,3 @@ struct Product: ProductSettable, Equatable {
     
     
 }
-
-
