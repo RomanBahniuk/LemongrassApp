@@ -12,23 +12,14 @@ class ClothingCategoryTableViewCell: UITableViewCell {
     
     
     static let reuseIdentifier = "ClothingCategoryTableViewCell"
+    let colorsManager = ColorsManager.self
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.backgroundColor = .white
+        self.backgroundColor = .systemGray6
         self.separatorInset = .zero
         self.selectionStyle = .none
     }
-    
-    private lazy var containerView: UIView = {
-        let containerView = UIView()
-        containerView.backgroundColor = .systemGray6
-        containerView.layer.cornerRadius = 16
-        containerView.addSubview(clothingCategoryImageView)
-        containerView.addSubview(categoryLabel)
-        
-        return containerView
-    }()
     
     
     lazy var categoryLabel: UILabel = {
@@ -42,8 +33,14 @@ class ClothingCategoryTableViewCell: UITableViewCell {
     
     lazy var clothingCategoryImageView: UIImageView = {
         let clothingCategoryImageView = UIImageView()
-        clothingCategoryImageView.layer.cornerRadius = 16
+        clothingCategoryImageView.layer.cornerRadius = 40
         clothingCategoryImageView.clipsToBounds = true
+        clothingCategoryImageView.backgroundColor = .white.withAlphaComponent(0.9)
+        clothingCategoryImageView.layer.shadowColor = colorsManager.lemongrassLightColor.cgColor
+        clothingCategoryImageView.layer.shadowRadius = 1.5
+        clothingCategoryImageView.layer.shadowOpacity = 0.5
+        clothingCategoryImageView.layer.shadowOffset = CGSize(width: 3, height: 3)
+        clothingCategoryImageView.layer.masksToBounds = false
         return clothingCategoryImageView
     }()
     
@@ -63,7 +60,7 @@ class ClothingCategoryTableViewCell: UITableViewCell {
         
         let storageRef = Storage.storage().reference()
         let reference = storageRef.child(typeOfClothing.clothesImageURL)
-        reference.getData(maxSize: 1 * 1024 * 1024) { data, err in
+        reference.getData(maxSize: 1 * 2048 * 2048) { data, err in
             if err != nil {
                 print(err?.localizedDescription ?? "errror")
                 
@@ -90,39 +87,29 @@ class ClothingCategoryTableViewCell: UITableViewCell {
 
 private extension ClothingCategoryTableViewCell {
     func  addSubviews() {
-        contentView.addSubview(containerView)
+        contentView.addSubview(clothingCategoryImageView)
+        contentView.addSubview(categoryLabel)
     }
     
     func setConstraints() {
-        containerViewConstraints()
         clothingCategoryImageViewConstraints()
         categoryLabelConstraints()
     }
     
-    func containerViewConstraints() {
-        containerView.translatesAutoresizingMaskIntoConstraints = false
-        [containerView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 8),
-         containerView.rightAnchor.constraint(equalTo: contentView.rightAnchor , constant: -8),
-         containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-         containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)].forEach {
-            $0.isActive = true
-        }
-    }
-    
     func clothingCategoryImageViewConstraints() {
         clothingCategoryImageView.translatesAutoresizingMaskIntoConstraints = false
-        [clothingCategoryImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor),
-         clothingCategoryImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-         clothingCategoryImageView.widthAnchor.constraint(equalTo: containerView.widthAnchor,multiplier: 0.3),
-         clothingCategoryImageView.heightAnchor.constraint(equalTo: containerView.heightAnchor)].forEach {
+        [clothingCategoryImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
+         clothingCategoryImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+         clothingCategoryImageView.widthAnchor.constraint(equalToConstant: 80),
+         clothingCategoryImageView.heightAnchor.constraint(equalToConstant: 80)].forEach {
             $0.isActive = true
         }
     }
     
     func categoryLabelConstraints() {
         categoryLabel.translatesAutoresizingMaskIntoConstraints = false
-        [categoryLabel.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-         categoryLabel.centerXAnchor.constraint(equalTo: containerView.centerXAnchor)].forEach {
+        [categoryLabel.centerYAnchor.constraint(equalTo: clothingCategoryImageView.centerYAnchor),
+         categoryLabel.leftAnchor.constraint(equalTo: clothingCategoryImageView.rightAnchor, constant: 24)].forEach {
             $0.isActive = true
         }
     }

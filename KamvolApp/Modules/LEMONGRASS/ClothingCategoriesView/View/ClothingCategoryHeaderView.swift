@@ -9,6 +9,7 @@ import UIKit
 
 class ClothingCategoryHeaderView: UIView {
     
+    let colorsManager = ColorsManager.self
     var clothingCategoryImageHeight = NSLayoutConstraint()
     var clothingCategoryImageBottom = NSLayoutConstraint()
     var containerViewHeight = NSLayoutConstraint()
@@ -36,7 +37,7 @@ class ClothingCategoryHeaderView: UIView {
     lazy var headerLabel: UILabel = {
         let headerLabel = UILabel()
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
-        headerLabel.textColor = .white
+        headerLabel.textColor = .systemGray6
         headerLabel.font = UIFont(name: "Apple SD Gothic Neo Bold", size: 32)
         return headerLabel
     }()

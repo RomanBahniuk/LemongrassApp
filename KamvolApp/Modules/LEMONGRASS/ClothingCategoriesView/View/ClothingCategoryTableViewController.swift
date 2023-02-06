@@ -11,6 +11,7 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
     
     private let clothingCategoryViewModel: ClothingCategoryViewModel
     let typeOfClothingModel: TypeOfClothingModel
+    let colorsManager = ColorsManager.self
     var topContentOffset: CGFloat = 65
     var bottomContentOffset: CGFloat = -235
 
@@ -59,7 +60,7 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
         backButtonItem.layer.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
         backButtonItem.layer.cornerRadius = backButtonItem.frame.height / 2
         backButtonItem.alpha = 1
-        backButtonItem.backgroundColor = .white.withAlphaComponent(0.9)
+        backButtonItem.backgroundColor = .systemGray6.withAlphaComponent(0.8)
         backButtonItem.setImage(UIImage(named: "BackButton"), for: .normal)
         backButtonItem.tintColor = .black
         backButtonItem.addTarget(self, action: #selector(popToViewController), for: .touchUpInside)
@@ -96,7 +97,9 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
         tableView.register(ClothingCategoryTableViewCell.self, forCellReuseIdentifier: ClothingCategoryTableViewCell.reuseIdentifier)
         tableView.separatorInset = .zero
         tableView.separatorStyle = .none
-        tableView.rowHeight = 120
+        tableView.scrollIndicatorInsets = .zero
+        tableView.showsVerticalScrollIndicator = false
+        tableView.rowHeight = 96
         
     }
     
@@ -132,7 +135,6 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
     }
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(scrollView.contentOffset.y)
         
         guard let header = self.tableView.tableHeaderView as? ClothingCategoryHeaderView else { return }
         header.scrollViewDidScroll(scrollView: self.tableView)
@@ -142,7 +144,7 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 5, initialSpringVelocity: 2, options: .curveLinear) {
                 self.navBarLabel.alpha = 0
                 self.navBarLabel.frame.origin.y = 10
-                self.backButtonItem.backgroundColor = .white.withAlphaComponent(0.8)
+                self.backButtonItem.backgroundColor = .systemGray6.withAlphaComponent(0.8)
                 self.backButtonItem.frame.origin.x = 0
                 self.navigationController?.navigationBar.backgroundColor = .clear
                 UIApplication.shared.statusBarUIView?.backgroundColor = .clear
@@ -153,10 +155,10 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 5, initialSpringVelocity: 2, options: .curveLinear) {
                 self.navBarLabel.alpha = 1
                 self.navBarLabel.frame.origin.y = 0
-                self.backButtonItem.backgroundColor = .white.withAlphaComponent(0)
+                self.backButtonItem.backgroundColor = .systemGray6.withAlphaComponent(0)
                 self.backButtonItem.frame.origin.x = -10
-                self.navigationController?.navigationBar.backgroundColor = .white
-                UIApplication.shared.statusBarUIView?.backgroundColor = .white
+                self.navigationController?.navigationBar.backgroundColor = .systemGray6
+                UIApplication.shared.statusBarUIView?.backgroundColor = .systemGray6
             }
 
         }
@@ -197,6 +199,19 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
         cell.updateValues(for: clothingCategoryViewModel.get(typeOfClothing: typeOfClothingModel, numberOfSection: indexPath))
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        
+        let fromBottomToTopTransform = CATransform3DTranslate(CATransform3DIdentity, 0, 50, 0)
+        cell.layer.transform = fromBottomToTopTransform
+        cell.alpha = 0
+       
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveLinear) {
+                cell.layer.transform = CATransform3DIdentity
+                cell.alpha = 1
+        }
+        
     }
 
 }
