@@ -1,0 +1,6 @@
+framework module Pods_KamvolApp_KamvolAppUITests {
+  umbrella header "Pods-KamvolApp-KamvolAppUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
