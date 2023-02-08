@@ -7,7 +7,7 @@
 
 import UIKit
 import FirebaseStorage
-
+import FirebaseStorageUI
 
 class ClothingCategoryTableViewCell: UITableViewCell {
     
@@ -26,7 +26,7 @@ class ClothingCategoryTableViewCell: UITableViewCell {
        let containerView = UIView()
         containerView.backgroundColor = .white
         containerView.layer.shadowColor = colorsManager.lemongrassLightColor.cgColor
-        containerView.layer.shadowRadius = 1.5
+        containerView.layer.shadowRadius = 3
         containerView.layer.shadowOpacity = 0.5
         containerView.layer.shadowOffset = CGSize(width: 3, height: 3)
         containerView.layer.masksToBounds = false
@@ -47,9 +47,8 @@ class ClothingCategoryTableViewCell: UITableViewCell {
     
     private lazy var clothingCategoryImageView: UIImageView = {
         let clothingCategoryImageView = UIImageView()
-        //clothingCategoryImageView.layer.cornerRadius = 40
         clothingCategoryImageView.clipsToBounds = true
-        clothingCategoryImageView.backgroundColor = .systemGray6
+        clothingCategoryImageView.backgroundColor = .systemGray6.withAlphaComponent(0.8)
         
         return clothingCategoryImageView
     }()
@@ -70,25 +69,7 @@ class ClothingCategoryTableViewCell: UITableViewCell {
         
         let storageRef = Storage.storage().reference()
         let reference = storageRef.child(typeOfClothing.clothesImageURL)
-//        reference.getData(maxSize: 1 * 2048 * 2048) { data, err in
-//            if err != nil {
-//                print(err?.localizedDescription ?? "errror")
-//
-//            } else {
-//
-//                let image = UIImage(data: data!)
-//                self.clothingCategoryImageView.image = image
-//
-//                reference.downloadURL { url, err in
-//                    if err != nil {
-//                        print(err?.localizedDescription ?? "err")
-//
-//                    } else {
-//                        print(url ?? "url")
-//                    }
-//                }
-//            }
-//        }
+        self.clothingCategoryImageView.sd_setImage(with: reference)
     }
     
 

@@ -7,7 +7,7 @@
 
 import UIKit
 import FirebaseStorage
-
+import FirebaseStorageUI
 
 class CollectionTypeTableViewCell: UITableViewCell {
     
@@ -70,25 +70,7 @@ class CollectionTypeTableViewCell: UITableViewCell {
         
         let storageRef = Storage.storage().reference()
         let reference = storageRef.child(collectionType.wearCollectionTypeImageURL)
-        reference.getData(maxSize: 1 * 1024 * 1024) { data, err in
-            if err != nil {
-                print(err?.localizedDescription ?? "errror")
-                
-            } else {
-                
-                let image = UIImage(data: data!)
-                self.categoryImageView.image = image
-                
-                reference.downloadURL { url, err in
-                    if err != nil {
-                        print(err?.localizedDescription ?? "err")
-                        
-                    } else {
-                        print(url ?? "url")
-                    }
-                }
-            }
-        }
+        self.categoryImageView.sd_setImage(with: reference)
         
     }
     

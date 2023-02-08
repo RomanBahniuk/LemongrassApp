@@ -100,26 +100,26 @@ class CollectionTypeFooterView: UIView {
     }()
     
     public func showFooterView() {
-        UIView.animate(withDuration: 0.4, delay: 1.6, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.2, options: .curveEaseOut) {
+        UIView.animate(withDuration: 0.4, delay: 1, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.2, options: .curveEaseOut) {
             self.footerContainerViewLeftAnchor.constant = 8
             self.layoutIfNeeded()
         }
         
-        UIView.animate(withDuration: 1.2, delay: 1.8, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.2, options: .curveLinear) {
+        UIView.animate(withDuration: 1.2, delay: 1.2, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.2, options: .curveLinear) {
             self.footerTitleLabel.alpha = 1
             self.footerTitleLabelCenterXAnchor.constant = 0
             self.layoutIfNeeded()
             
         }
         
-        UIView.animate(withDuration: 1.4, delay: 2, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.2, options: .curveLinear) {
+        UIView.animate(withDuration: 1.4, delay: 1.4, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.2, options: .curveLinear) {
             self.footerDashLabel.alpha = 1
             self.footerDashLabelCenterXAnchor.constant = 0
             self.layoutIfNeeded()
             
         }
         
-        UIView.animate(withDuration: 2.2, delay: 2.4, usingSpringWithDamping: 1.5, initialSpringVelocity: 0.2, options: .curveLinear) {
+        UIView.animate(withDuration: 2.2, delay: 1.8, usingSpringWithDamping: 1.5, initialSpringVelocity: 0.2, options: .curveLinear) {
             self.footerDescriptionLabel.alpha = 1
             self.footerDescriptionLabelLeftAnchor.constant = 18
             self.footerDescriptionLabelRightAnchor.constant = -18
@@ -127,7 +127,7 @@ class CollectionTypeFooterView: UIView {
             
         }
         
-        UIView.animate(withDuration: 1.4, delay: 3.5, usingSpringWithDamping: 1.5, initialSpringVelocity: 0.2, options: .curveLinear) {
+        UIView.animate(withDuration: 1.4, delay: 2.6, usingSpringWithDamping: 1.5, initialSpringVelocity: 0.2, options: .curveLinear) {
             self.hideFooterViewButton.alpha = 1
             self.hideFooterViewButtonCenterXAnchor.constant = 0
             self.layoutIfNeeded()
