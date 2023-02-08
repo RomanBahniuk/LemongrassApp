@@ -8,6 +8,7 @@
 import UIKit
 import FirebaseStorage
 
+
 class ClothingCategoryTableViewCell: UITableViewCell {
     
     
@@ -21,8 +22,21 @@ class ClothingCategoryTableViewCell: UITableViewCell {
         self.selectionStyle = .none
     }
     
+    private lazy var containerView: UIView = {
+       let containerView = UIView()
+        containerView.backgroundColor = .white
+        containerView.layer.shadowColor = colorsManager.lemongrassLightColor.cgColor
+        containerView.layer.shadowRadius = 1.5
+        containerView.layer.shadowOpacity = 0.5
+        containerView.layer.shadowOffset = CGSize(width: 3, height: 3)
+        containerView.layer.masksToBounds = false
+        
+        
+        return containerView
+    }()
     
-    lazy var categoryLabel: UILabel = {
+    
+    private lazy var categoryLabel: UILabel = {
         let categoryLabel = UILabel()
         categoryLabel.font = UIFont(name: "Apple SD Gothic Neo Medium", size: 24)
         categoryLabel.textColor = .black
@@ -31,16 +45,12 @@ class ClothingCategoryTableViewCell: UITableViewCell {
     }()
     
     
-    lazy var clothingCategoryImageView: UIImageView = {
+    private lazy var clothingCategoryImageView: UIImageView = {
         let clothingCategoryImageView = UIImageView()
-        clothingCategoryImageView.layer.cornerRadius = 40
+        //clothingCategoryImageView.layer.cornerRadius = 40
         clothingCategoryImageView.clipsToBounds = true
-        clothingCategoryImageView.backgroundColor = .white.withAlphaComponent(0.9)
-        clothingCategoryImageView.layer.shadowColor = colorsManager.lemongrassLightColor.cgColor
-        clothingCategoryImageView.layer.shadowRadius = 1.5
-        clothingCategoryImageView.layer.shadowOpacity = 0.5
-        clothingCategoryImageView.layer.shadowOffset = CGSize(width: 3, height: 3)
-        clothingCategoryImageView.layer.masksToBounds = false
+        clothingCategoryImageView.backgroundColor = .systemGray6
+        
         return clothingCategoryImageView
     }()
     
@@ -60,26 +70,25 @@ class ClothingCategoryTableViewCell: UITableViewCell {
         
         let storageRef = Storage.storage().reference()
         let reference = storageRef.child(typeOfClothing.clothesImageURL)
-        reference.getData(maxSize: 1 * 2048 * 2048) { data, err in
-            if err != nil {
-                print(err?.localizedDescription ?? "errror")
-                
-            } else {
-                
-                let image = UIImage(data: data!)
-                self.clothingCategoryImageView.image = image
-                
-                reference.downloadURL { url, err in
-                    if err != nil {
-                        print(err?.localizedDescription ?? "err")
-                        
-                    } else {
-                        print(url ?? "url")
-                    }
-                }
-            }
-        }
-        
+//        reference.getData(maxSize: 1 * 2048 * 2048) { data, err in
+//            if err != nil {
+//                print(err?.localizedDescription ?? "errror")
+//
+//            } else {
+//
+//                let image = UIImage(data: data!)
+//                self.clothingCategoryImageView.image = image
+//
+//                reference.downloadURL { url, err in
+//                    if err != nil {
+//                        print(err?.localizedDescription ?? "err")
+//
+//                    } else {
+//                        print(url ?? "url")
+//                    }
+//                }
+//            }
+//        }
     }
     
 
@@ -87,21 +96,33 @@ class ClothingCategoryTableViewCell: UITableViewCell {
 
 private extension ClothingCategoryTableViewCell {
     func  addSubviews() {
-        contentView.addSubview(clothingCategoryImageView)
-        contentView.addSubview(categoryLabel)
+        contentView.addSubview(containerView)
+        containerView.addSubview(clothingCategoryImageView)
+        containerView.addSubview(categoryLabel)
     }
     
     func setConstraints() {
+        containerViewConstraints()
         clothingCategoryImageViewConstraints()
         categoryLabelConstraints()
     }
     
+    func containerViewConstraints() {
+        containerView.translatesAutoresizingMaskIntoConstraints = false
+        [containerView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor, constant: 0),
+         containerView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 0),
+         containerView.widthAnchor.constraint(equalTo: contentView.widthAnchor, constant: -16),
+         containerView.heightAnchor.constraint(equalTo: contentView.heightAnchor, constant: -16)].forEach {
+            $0.isActive = true
+        }
+    }
+    
     func clothingCategoryImageViewConstraints() {
         clothingCategoryImageView.translatesAutoresizingMaskIntoConstraints = false
-        [clothingCategoryImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
-         clothingCategoryImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-         clothingCategoryImageView.widthAnchor.constraint(equalToConstant: 80),
-         clothingCategoryImageView.heightAnchor.constraint(equalToConstant: 80)].forEach {
+        [clothingCategoryImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 0),
+         clothingCategoryImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
+         clothingCategoryImageView.widthAnchor.constraint(equalToConstant: 64),
+         clothingCategoryImageView.heightAnchor.constraint(equalTo: containerView.heightAnchor)].forEach {
             $0.isActive = true
         }
     }

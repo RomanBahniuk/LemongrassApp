@@ -99,7 +99,7 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
         tableView.separatorStyle = .none
         tableView.scrollIndicatorInsets = .zero
         tableView.showsVerticalScrollIndicator = false
-        tableView.rowHeight = 96
+        tableView.rowHeight = 104
         
     }
     
@@ -203,13 +203,12 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         
-        let fromBottomToTopTransform = CATransform3DTranslate(CATransform3DIdentity, 0, 50, 0)
+        let fromBottomToTopTransform = CATransform3DTranslate(CATransform3DIdentity, 0, 20, 0)
         cell.layer.transform = fromBottomToTopTransform
-        cell.alpha = 0
        
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1.5, initialSpringVelocity: 1.5, options: .curveLinear) {
+        UIView.animate(withDuration: 0.4, delay: 0.1, usingSpringWithDamping: 1.6, initialSpringVelocity: 1.6, options: .curveLinear) {
                 cell.layer.transform = CATransform3DIdentity
-                cell.alpha = 1
+            
         }
         
     }

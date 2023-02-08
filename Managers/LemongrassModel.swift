@@ -57,7 +57,7 @@ protocol ProductSettable {
     var productDescription: String {get}
     var productComposition: String {get}
     var productSize: String {get}
-    var productImageURL: String! {get}
+    var productImageURL: String {get}
     
 }
 
@@ -89,7 +89,7 @@ struct Product: ProductSettable, Equatable {
     var productDescription: String
     var productComposition: String
     var productSize: String
-    var productImageURL: String!
+    var productImageURL: String
     
     init(productName: String = "", productSerialNo: String = "", productDescription: String = "", productComposition: String = "", productSize: String = "", prductImageURL: String = "") {
         self.productName = productName
