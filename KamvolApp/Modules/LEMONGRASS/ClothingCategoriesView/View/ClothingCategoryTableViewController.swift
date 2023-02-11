@@ -99,13 +99,13 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
         tableView.separatorStyle = .none
         tableView.scrollIndicatorInsets = .zero
         tableView.showsVerticalScrollIndicator = false
-        tableView.rowHeight = 104
+        tableView.rowHeight = 88
         
     }
     
     func prepareForePresentMensTypeOfClothing() {
         guard let header = self.tableView.tableHeaderView as? ClothingCategoryHeaderView else { return }
-        header.updateHeaderLabel(text: "Мужская коллекция", image: UIImage(named: "01CategoryTitle")!)
+        header.updateHeaderLabel(text: "Мужская коллекция", textColor: .white, image: UIImage(named: "01CategoryTitle")!)
         clothingCategoryViewModel.reciveMensClothesData()
         navBarLabel.text = "Мужская коллекция"
     }
@@ -114,7 +114,7 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
         guard let header = self.tableView.tableHeaderView as? ClothingCategoryHeaderView else { return }
         clothingCategoryViewModel.reciveWomensClothesData()
         navBarLabel.text = "Женская коллекция"
-        header.updateHeaderLabel(text: "Женская коллекция", image: UIImage(named: "02CategoryTitle")!)
+        header.updateHeaderLabel(text: "Женская коллекция", textColor: .black, image: UIImage(named: "02CategoryTitle")!)
     }
     
     private func setBackButtonItem() {
@@ -180,6 +180,24 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
         
     }
     
+    private func cellsPulseAnimation(indexPath: IndexPath) {
+        
+        let cell = self.tableView.cellForRow(at: indexPath)
+        var transformUp = CGAffineTransform.identity
+        var transformDown = CGAffineTransform.identity
+
+        transformUp = transformUp.scaledBy(x: 1, y: 1)
+        transformDown = transformDown.scaledBy(x: 0.96, y: 0.96)
+
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5) {
+            cell?.transform = transformDown
+        }
+
+        UIView.animate(withDuration: 0.2, delay: 0.1, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5) {
+            cell?.transform = transformUp
+        }
+    }
+    
     @objc func popToViewController(_ sender: UIButton) {
         self.navigationController?.popViewController(animated: true)
     }
@@ -187,7 +205,6 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
     @objc func navBarLabelTapped() {
         tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
     }
-
     // MARK: - Table view data source
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -211,6 +228,10 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
             
         }
         
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        cellsPulseAnimation(indexPath: indexPath)
     }
 
 }

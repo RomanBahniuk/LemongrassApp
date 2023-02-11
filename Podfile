@@ -7,11 +7,19 @@ target 'KamvolApp' do
 
   # Pods for KamvolApp
   pod 'FirebaseUI/Storage'
+  pod 'FirebaseAnalytics'
+  pod 'FirebaseAuth'
+  pod 'FirebaseFirestore'
+  pod 'Firebase/Storage'
 
   target 'KamvolAppTests' do
     inherit! :search_paths
     # Pods for testing
   pod 'FirebaseUI/Storage'
+  pod 'FirebaseAnalytics'
+  pod 'FirebaseAuth'
+  pod 'FirebaseFirestore'
+  pod 'Firebase/Storage'
   end
 
   target 'KamvolAppUITests' do

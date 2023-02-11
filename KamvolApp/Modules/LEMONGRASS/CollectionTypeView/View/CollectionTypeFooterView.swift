@@ -226,7 +226,7 @@ class CollectionTypeFooterView: UIView {
     private func setAllConstraints() {
         footerContainerView.widthAnchor.constraint(equalToConstant: 374).isActive = true
         footerContainerView.topAnchor.constraint(equalTo: self.topAnchor, constant: 0).isActive = true
-        footerContainerView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -4).isActive = true
+        footerContainerView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: 0).isActive = true
         footerContainerViewLeftAnchor = footerContainerView.leftAnchor.constraint(equalTo: self.leftAnchor ,constant: -374)
         
         footerTitleLabel.topAnchor.constraint(equalTo: footerContainerView.topAnchor, constant: 6).isActive = true
@@ -237,8 +237,7 @@ class CollectionTypeFooterView: UIView {
         footerDashLabelCenterXAnchor = footerDashLabel.centerXAnchor.constraint(equalTo: footerContainerView.centerXAnchor, constant: -144)
         
         
-        [footerDescriptionLabel.topAnchor.constraint(equalTo: footerDashLabel.topAnchor, constant: 24),
-         footerDescriptionLabel.bottomAnchor.constraint(equalTo: footerContainerView.bottomAnchor, constant: -24)].forEach {
+        [footerDescriptionLabel.topAnchor.constraint(equalTo: footerDashLabel.topAnchor, constant: 38)].forEach {
             $0.isActive = true
         }
         

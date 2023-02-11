@@ -47,8 +47,10 @@ class ClothingCategoryTableViewCell: UITableViewCell {
     
     private lazy var clothingCategoryImageView: UIImageView = {
         let clothingCategoryImageView = UIImageView()
+        clothingCategoryImageView.layer.cornerRadius = 28
+        clothingCategoryImageView.contentMode = .scaleAspectFit
         clothingCategoryImageView.clipsToBounds = true
-        clothingCategoryImageView.backgroundColor = .systemGray6.withAlphaComponent(0.8)
+        clothingCategoryImageView.backgroundColor = .systemGray6
         
         return clothingCategoryImageView
     }()
@@ -100,10 +102,10 @@ private extension ClothingCategoryTableViewCell {
     
     func clothingCategoryImageViewConstraints() {
         clothingCategoryImageView.translatesAutoresizingMaskIntoConstraints = false
-        [clothingCategoryImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 0),
+        [clothingCategoryImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 8),
          clothingCategoryImageView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
          clothingCategoryImageView.widthAnchor.constraint(equalToConstant: 64),
-         clothingCategoryImageView.heightAnchor.constraint(equalTo: containerView.heightAnchor)].forEach {
+         clothingCategoryImageView.heightAnchor.constraint(equalToConstant: 64)].forEach {
             $0.isActive = true
         }
     }

@@ -37,7 +37,6 @@ class ClothingCategoryHeaderView: UIView {
     lazy var headerLabel: UILabel = {
         let headerLabel = UILabel()
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
-        headerLabel.textColor = .systemGray6
         headerLabel.font = UIFont(name: "Apple SD Gothic Neo Bold", size: 32)
         return headerLabel
     }()
@@ -61,8 +60,9 @@ class ClothingCategoryHeaderView: UIView {
         
     }
     
-    func updateHeaderLabel(text: String, image: UIImage) {
+    func updateHeaderLabel(text: String, textColor: UIColor, image: UIImage) {
         headerLabel.text = text
+        headerLabel.textColor = textColor
         clothingCategoryImage.image = image
         
     }

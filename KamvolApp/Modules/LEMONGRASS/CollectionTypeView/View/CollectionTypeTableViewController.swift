@@ -93,9 +93,26 @@ final class CollectionTypeTableViewController: UITableViewController {
         self.tableView.tableHeaderView = header
     }
     
+    private func cellsPulseAnimation(indexPath: IndexPath) {
+        
+        let cell = self.tableView.cellForRow(at: indexPath)
+        var transformUp = CGAffineTransform.identity
+        var transformDown = CGAffineTransform.identity
+
+        transformUp = transformUp.scaledBy(x: 1, y: 1)
+        transformDown = transformDown.scaledBy(x: 0.96, y: 0.96)
+
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5) {
+            cell?.transform = transformDown
+        }
+
+        UIView.animate(withDuration: 0.2, delay: 0.1, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5) {
+            cell?.transform = transformUp
+        }
+    }
+    
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(scrollView.contentOffset.y)
         guard let header = self.tableView.tableHeaderView as? CollectionTypeHeaderView else { return }
         header.scrollViewDidScroll(scrollView: self.tableView)
         header.headerLabel.alpha = 1 - ((scrollView.contentOffset.y + self.topContentOffset) / self.topContentOffset)
@@ -148,6 +165,9 @@ final class CollectionTypeTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        cellsPulseAnimation(indexPath: indexPath)
+        
         switch indexPath.row {
         case 0: let controller = ClothingCategoryTableViewController(clothingCategoryViewModel: ClothingCategoryViewModel(firestoreService: FirestoreNetworkService()), typeOfClothingModel: TypeOfClothingModel())
             controller.prepareForePresentMensTypeOfClothing()
@@ -161,6 +181,9 @@ final class CollectionTypeTableViewController: UITableViewController {
             
         default: break
         }
+        
+        
+        
     }
     
     
