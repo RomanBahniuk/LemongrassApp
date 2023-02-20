@@ -14,7 +14,7 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
     let colorsManager = ColorsManager.self
     var topContentOffset: CGFloat = 65
     var bottomContentOffset: CGFloat = -235
-
+    
     init(clothingCategoryViewModel:ClothingCategoryViewModel, typeOfClothingModel: TypeOfClothingModel) {
         self.clothingCategoryViewModel = clothingCategoryViewModel
         self.typeOfClothingModel = typeOfClothingModel
@@ -41,7 +41,7 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
         scrollToBottomGesture()
         navigationController?.navigationBar.backgroundColor = .clear
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setTableView()
@@ -71,7 +71,7 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
     
     
     private lazy var navBarLabel: UILabel = {
-       let navBarLabel = UILabel()
+        let navBarLabel = UILabel()
         navBarLabel.layer.frame = CGRect(x: 104, y: 10, width: 168, height: 40)
         navBarLabel.font = UIFont(name: "Apple SD Gothic Neo Bold", size: 18)
         navBarLabel.textColor = .black
@@ -86,11 +86,12 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
         containerView.backgroundColor = .clear
         containerView.addSubview(backButtonItem)
         containerView.addSubview(navBarLabel)
-       return containerView
+        return containerView
     }()
     
     private func setTypeOfClothingViewModel() {
         clothingCategoryViewModel.onReciveDataCallBack = self.tableView.reloadData
+        
     }
     
     private func setTableView() {
@@ -104,14 +105,14 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
     }
     
     func prepareForePresentMensTypeOfClothing() {
-        guard let header = self.tableView.tableHeaderView as? ClothingCategoryHeaderView else { return }
+        guard let header = self.tableView.tableHeaderView as? ClothingCategoriesHeaderView else { return }
         header.updateHeaderLabel(text: "Мужская коллекция", textColor: .white, image: UIImage(named: "01CategoryTitle")!)
         clothingCategoryViewModel.reciveMensClothesData()
         navBarLabel.text = "Мужская коллекция"
     }
     
     func prepareForePresentWomensTypeOfClothing() {
-        guard let header = self.tableView.tableHeaderView as? ClothingCategoryHeaderView else { return }
+        guard let header = self.tableView.tableHeaderView as? ClothingCategoriesHeaderView else { return }
         clothingCategoryViewModel.reciveWomensClothesData()
         navBarLabel.text = "Женская коллекция"
         header.updateHeaderLabel(text: "Женская коллекция", textColor: .black, image: UIImage(named: "02CategoryTitle")!)
@@ -124,7 +125,7 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
     }
     
     private func setHeaderView() {
-        let header = ClothingCategoryHeaderView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 160))
+        let header = ClothingCategoriesHeaderView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 160))
         self.tableView.tableHeaderView = header
         
     }
@@ -136,9 +137,10 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
     
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        guard let header = self.tableView.tableHeaderView as? ClothingCategoryHeaderView else { return }
+        guard let header = self.tableView.tableHeaderView as? ClothingCategoriesHeaderView else { return }
         header.scrollViewDidScroll(scrollView: self.tableView)
-        header.headerLabel.alpha = 1 - ((scrollView.contentOffset.y + self.topContentOffset) / self.topContentOffset)
+        header.headerLabel.alpha = 1 - ((scrollView.contentOffset.y + self.topContentOffset) / (self.topContentOffset / 0.7))
+        header.blurView.alpha = 0 + ((scrollView.contentOffset.y + self.topContentOffset) / (self.topContentOffset / 0.55))
         
         if(self.topContentOffset > scrollView.contentOffset.y) {
             UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 5, initialSpringVelocity: 2, options: .curveLinear) {
@@ -160,21 +162,16 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
                 self.navigationController?.navigationBar.backgroundColor = .systemGray6
                 UIApplication.shared.statusBarUIView?.backgroundColor = .systemGray6
             }
-
+            
         }
         
-        if (bottomContentOffset >= scrollView.contentOffset.y) {
+        if (bottomContentOffset > scrollView.contentOffset.y) {
             UIView.animate(withDuration: 0.5, delay: 0.2, usingSpringWithDamping: 5, initialSpringVelocity: 2, options: .curveLinear) {
                 self.backButtonItem.alpha = 0
-
-                
             }
         } else {
             UIView.animate(withDuration: 0.5, delay: 0.1, usingSpringWithDamping: 5, initialSpringVelocity: 2, options: .curveLinear) {
                 self.backButtonItem.alpha = 1
-                
-
-
             }
         }
         
@@ -185,15 +182,15 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
         let cell = self.tableView.cellForRow(at: indexPath)
         var transformUp = CGAffineTransform.identity
         var transformDown = CGAffineTransform.identity
-
+        
         transformUp = transformUp.scaledBy(x: 1, y: 1)
         transformDown = transformDown.scaledBy(x: 0.96, y: 0.96)
-
-        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5) {
+        
+        UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 1.2, initialSpringVelocity: 1.2) {
             cell?.transform = transformDown
         }
-
-        UIView.animate(withDuration: 0.2, delay: 0.1, usingSpringWithDamping: 0.5, initialSpringVelocity: 0.5) {
+        
+        UIView.animate(withDuration: 0.2, delay: 0.1, usingSpringWithDamping: 1.2, initialSpringVelocity: 1.2) {
             cell?.transform = transformUp
         }
     }
@@ -206,7 +203,7 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
         tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
     }
     // MARK: - Table view data source
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         clothingCategoryViewModel.numberOfRowsInSection(collectionType: typeOfClothingModel, numberOfSection: section)
     }
@@ -222,9 +219,9 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
         
         let fromBottomToTopTransform = CATransform3DTranslate(CATransform3DIdentity, 0, 20, 0)
         cell.layer.transform = fromBottomToTopTransform
-       
+        
         UIView.animate(withDuration: 0.4, delay: 0.1, usingSpringWithDamping: 1.6, initialSpringVelocity: 1.6, options: .curveLinear) {
-                cell.layer.transform = CATransform3DIdentity
+            cell.layer.transform = CATransform3DIdentity
             
         }
         
@@ -232,6 +229,12 @@ class ClothingCategoryTableViewController: UITableViewController, UIGestureRecog
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         cellsPulseAnimation(indexPath: indexPath)
+//        let controller = ClothesTableViewController(clothesViewModel: ClothesViewModel(firestoreService: FirestoreNetworkService()), clothes: Clothes())
+//            controller.hidesBottomBarWhenPushed = true
+//            navigationController?.pushViewController(controller, animated: true)
+            
+            
+        
     }
-
+    
 }

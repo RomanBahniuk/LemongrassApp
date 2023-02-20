@@ -36,6 +36,7 @@ final class CollectionTypeViewModel: CollectionTypeViewModelProtocol {
     
     func get(collectionType: CollectionTypeModel, numberOfSection indexPath: IndexPath) -> CollectionTypeSettable {
         return collectionTypeModel[indexPath.row]
+        
     }
     
     func reciveData() {

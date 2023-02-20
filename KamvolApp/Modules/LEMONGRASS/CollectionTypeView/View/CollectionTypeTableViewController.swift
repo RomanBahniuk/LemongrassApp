@@ -74,8 +74,7 @@ final class CollectionTypeTableViewController: UITableViewController {
         tableView.separatorInset = .zero
         tableView.separatorStyle = .none
         tableView.rowHeight = 176
-        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -60, right: 0)
-        
+        tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: -60, right: 0)        
     }
     
     
@@ -115,7 +114,7 @@ final class CollectionTypeTableViewController: UITableViewController {
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let header = self.tableView.tableHeaderView as? CollectionTypeHeaderView else { return }
         header.scrollViewDidScroll(scrollView: self.tableView)
-        header.headerLabel.alpha = 1 - ((scrollView.contentOffset.y + self.topContentOffset) / self.topContentOffset)
+        header.headerLabel.alpha = 1 - ((scrollView.contentOffset.y + self.topContentOffset) / (self.topContentOffset / 0.85))
         
         
         

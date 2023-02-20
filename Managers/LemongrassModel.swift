@@ -45,25 +45,46 @@ struct TypeOfClothingModel: TypeOfClothingSettable {
     
 }
 
-enum ClothingCollectionType: String {
-    case mensCollection = "Мужская коллекция"
-    case womensCollection = "Женская коллекция"
+//MARK: LemongrassClothesModel
+protocol ClothesSettable {
+    var clothesName: String {get}
+    var clothesSerialNo: String {get}
+    var clothesDescription: String {get}
+    var clothesComposition: String {get}
+    var clothesSize: String {get}
+    var clothesImageURL: String {get}
+    var clothingCategory: String {get}
 }
 
-//MARK: LemongrassProductModel
-protocol ProductSettable {
-    var productName: String {get}
-    var productSerialNo: String {get}
-    var productDescription: String {get}
-    var productComposition: String {get}
-    var productSize: String {get}
-    var productImageURL: String {get}
+struct Clothes: ClothesSettable {
+    
+    var clothesName: String
+    var clothesSerialNo: String
+    var clothesDescription: String
+    var clothesComposition: String
+    var clothesSize: String
+    var clothesImageURL: String
+    var clothingCategory: String
+    
+    init(clothesName: String = "", clothesSerialNo: String = "", clothesDescription: String = "", clothesComposition: String = "", clothesSize: String = "", clothesImageURL: String = "", clothingCategory: String = "") {
+        self.clothesName = clothesName
+        self.clothesSerialNo = clothesSerialNo
+        self.clothesDescription = clothesDescription
+        self.clothesComposition = clothesComposition
+        self.clothesSize = clothesSize
+        self.clothesImageURL = clothesImageURL
+        self.clothingCategory = clothingCategory
+    }
+    
     
 }
 
-enum WearCategory: String {
+enum MensClothingCategory: String {
     case jacket = "Пиджаки"
     case suit = "Костюмы"
+}
+
+enum WomensClothingCategory: String {
     case blouse = "Блузки"
     case trousers = "Брюки"
     case wamus = "Жакеты"
@@ -76,29 +97,9 @@ enum WearCategory: String {
     case coat = "Пальто"
 }
 
-struct CompleteProduct {
-    var collectionType: ClothingCollectionType
-    var category: WearCategory
-    var product: [Product]
+enum ClothingCollectionType: String {
+    case mensCollection = "Мужская коллекция"
+    case womensCollection = "Женская коллекция"
 }
 
-struct Product: ProductSettable, Equatable {
-    
-    var productName: String
-    var productSerialNo: String
-    var productDescription: String
-    var productComposition: String
-    var productSize: String
-    var productImageURL: String
-    
-    init(productName: String = "", productSerialNo: String = "", productDescription: String = "", productComposition: String = "", productSize: String = "", prductImageURL: String = "") {
-        self.productName = productName
-        self.productSerialNo = productSerialNo
-        self.productDescription = productDescription
-        self.productComposition = productComposition
-        self.productSize = productSize
-        self.productImageURL = prductImageURL
-    }
-    
-    
-}
+

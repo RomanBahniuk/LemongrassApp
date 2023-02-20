@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ClothingCategoryHeaderView: UIView {
+class ClothingCategoriesHeaderView: UIView {
     
     let colorsManager = ColorsManager.self
     var clothingCategoryImageHeight = NSLayoutConstraint()
@@ -24,11 +24,21 @@ class ClothingCategoryHeaderView: UIView {
         return clothingCategoryImage
     }()
     
+    lazy var blurView: UIVisualEffectView = {
+       let blurView = UIVisualEffectView()
+        blurView.translatesAutoresizingMaskIntoConstraints = false
+        blurView.clipsToBounds = true
+        blurView.effect = UIBlurEffect(style: .prominent)
+        
+        return blurView
+    }()
+    
     
     private lazy var containerView: UIView = {
        let containerView = UIView()
         containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(clothingCategoryImage)
+        containerView.addSubview(blurView)
         
         return containerView
     }()
@@ -83,9 +93,15 @@ class ClothingCategoryHeaderView: UIView {
         clothingCategoryImageHeight.isActive = true
         
         
-        headerLabel.translatesAutoresizingMaskIntoConstraints = false
         [headerLabel.leftAnchor.constraint(equalTo: clothingCategoryImage.leftAnchor,constant: 16),
          headerLabel.bottomAnchor.constraint(equalTo: clothingCategoryImage.bottomAnchor, constant: 0)].forEach {
+            $0.isActive = true
+        }
+        
+        [blurView.centerXAnchor.constraint(equalTo: clothingCategoryImage.centerXAnchor),
+         blurView.centerYAnchor.constraint(equalTo: clothingCategoryImage.centerYAnchor),
+         blurView.widthAnchor.constraint(equalTo: clothingCategoryImage.widthAnchor),
+         blurView.heightAnchor.constraint(equalTo: clothingCategoryImage.heightAnchor)].forEach {
             $0.isActive = true
         }
         

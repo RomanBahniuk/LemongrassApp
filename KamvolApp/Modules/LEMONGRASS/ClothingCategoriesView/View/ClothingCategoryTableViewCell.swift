@@ -25,6 +25,7 @@ class ClothingCategoryTableViewCell: UITableViewCell {
     private lazy var containerView: UIView = {
        let containerView = UIView()
         containerView.backgroundColor = .white
+        containerView.layer.cornerRadius = 16
         containerView.layer.shadowColor = colorsManager.lemongrassLightColor.cgColor
         containerView.layer.shadowRadius = 3
         containerView.layer.shadowOpacity = 0.5
